@@ -29,37 +29,81 @@ para extrair atributos (features) das palavras, distorção do texto, Posicionam
 
 \subsection{PRÉ PROCESSAMENTO DO TEXTO}
 
-Todo o texto utilizado passa por uma função de normalização a fim de remover a maior quantidade de inconsistências e simplificar seu formato. A função de normalização pode ser encontrada no APÊNDICE A.
+Todo o texto utilizado passa por uma função de normalização a fim de remover a maior quantidade de inconsistências e simplificar seu formato. A função de normalização pode ser encontrada no \autoref{chap:funcao_normalizacao_texto}.
 
 \subsection{VETORIZAÇÃO DO TEXTO}
 
 A representação do texto de forma vetorial para que possa ser utilizada nos modelos de aprendizado de máquina. Essas representações precisam ser simples e que contenham em si as informações sobre o significado das palavras.
 
-Atualmente, o estado da arte alcançado pelos algoritmos de aprendizado de máquina são alcançados utilizando uma representação vetorial, comumente chamada de “word embedding”.
+Para o nosso caso, obtivemos melhores resultados usando o \textbf{FasText} proposto no artigo \cite{fasttext}. Esse método de representação vetorial é interessante, pois diferente do \textbf{CBOW} e \textbf{SKIP-GRAM} introduzidos no artigo \cite{mikolov}, o FastText é capaz de representar palavras que não foram vistas durante o treinamento o que é uma grande vantagem com a variável de palavras e modelos que normalmente seguem um padrão para a sua formação, como no exemplo à seguir, onde apenas muda um carácter no modelo do smartphone.
 
-Para o nosso caso, escolhemos o FasText proposto no artigo [1]. Esse método de representação vetorial é interessante, pois diferente do CBOW e SKIP-GRAM, o FastText é capaz de representar palavras que não foram vistas durante o treinamento.
+\begin{itemize}
+\item Smartphone Samsung Galaxy \textbf{S10} ...
+\item Smartphone Samsung Galaxy \textbf{S10e} ...
+\item Smartphone Samsung Galaxy \textbf{S10+} ...
+\end{itemize}
 
 \subsubsection{REPRESENTAÇÃO DAS PALAVRAS}
-As palavras são representadas pela soma da representação vetorial de seus n-grams mais a palavra se ela estiver presente durante o treinamento. Caso a palavra que está sendo representada não estiver presente, então ela só será formada pela soma de seus n-grams.
 
-t=1Tc  Ctl(s(wt, cc)) +nN
+As palavras são representadas pela soma da representação vetorial de seus \textit{n-grams} mais um termo especial que é a própria palavra se ela esteja presente no dicionário. Caso a palavra não esteja presente no dicionário, então ela só será representada somente pela soma de seus \textit{n-grams}.
 
-s(w, c) =gGwGwzgTvc
+Note que na \autoref{fasttext_representacao_das_palavras_ngram_com_especial} a palavra “água” aparecer como um termo especial, enquanto na \autoref{fasttext_representacao_das_palavras_ngram_sem_especial} o termo especial não aparece, dando a ideia de que não esta presente no dicionário, portanto a representação das palavras são feitas somente pelos seus \textit{n-grams}.
 
-FUNÇÃO X: Representação das palavras hw pelos seus n-grams. 
-hw=g  WGxg
+\begin{figure}[htb]
+	\caption{\label{fasttext_representacao_das_palavras_ngram_com_especial} Representação das palavras conhecidas}
+	\begin{center}
+	    \includegraphics[scale=1.0]{artigo/recursos/imagens/fasttext_representacao_das_palavras_ngram_com_especial.png}
+	\end{center}
+	\legend{Fonte: Elaborado pelo Autor}
+\end{figure}
 
-FIGURA K: Representação das palavras conhecidas durante o treinamento
+\begin{figure}[htb]
+	\caption{\label{fasttext_representacao_das_palavras_ngram_sem_especial} Representação das palavras desconhecidas}
+	\begin{center}
+	    \includegraphics[scale=1.0]{artigo/recursos/imagens/fasttext_representacao_das_palavras_ngram_sem_especial.png}
+	\end{center}
+	\legend{Fonte: Elaborado pelo Autor}
+\end{figure}
 
-FONTE: Desenvolvida pelo autor
+Vale notar que o FastText já possui diversos modelos pré-treinados em várias línguas e podem ser encontradas no seu site \href{https://fasttext.cc/docs/en/english-vectors.html}{FastText Models}.
 
-Note que na FIGURA K a palavra “água” volta aparecer como um termo especial, enquanto na FIGURA Z o termo especial não aparece, pois este não apareceu durante o treinamento, portanto a representação das palavras são feitas somente pelos seus n-grams.
+No entanto, para maximizar a performance do modelo, foi necessário fazer um treinamento especializado com os dados do e-commerce. Para mais detalhes, veja o APÊNDICE F.
 
-FIGURA Z: Representação das palavras desconhecidas durante o treinamento
+\subsubsection{MODELO FASTTEXT}
 
-FONTE: Desenvolvida pelo autor
+O modelo do FastText é uma variação do \textbf{skip-gram} introduzido no \cite{mikolov}, onde dado uma sequencia de palavras o objetivo é maximizar a probabilidade do contexto dado as palavras em volta. Um exemplo dessa ideia pode ser visto na \autoref{examplo_skip_gram}.
 
-Vale notar que FastText já possui diversos modelos pré-treinados em várias línguas. No entanto, para maximizar a performance do modelo, foi necessário fazer um treinamento especializado com os dados do e-commerce. Para mais detalhes, veja o APÊNDICE F;
+\begin{figure}[htb]
+	\caption{\label{examplo_skip_gram} Exemplo do contexto dado as palavras em volta}
+	\begin{center}
+	    \includegraphics[scale=1.0]{artigo/recursos/imagens/examplo_skip_gram.png}
+	\end{center}
+	\legend{Fonte: Elaborado pelo Autor}
+\end{figure}
+
+Dado um vocabulário de tamanho $W$, cada palavra é identificada pelo seu índice $w \in {1, .., W}$ tendo o objetivo de criar uma representação vetorial para cada palavra neste dicionário.
+
+Dado uma sequência de palavras $w_1, ..., w_T$ o objetivo do modelo skip-gram é maximizar a probabilidade do contexto dado as palavras ao seu redor.
+
+\begin{center}\large
+    $\sum_{t=1}^{T} \sum_{c \in C_t} log(p(w_c | w_t))$
+\end{center}
+
+função de pontuação
+
+\begin{center}\large
+    $s(w, c) = \sum_{g \in G_w} z_{g}^{T} v_c$
+\end{center}
+
+logistic loss function
+
+\begin{center}\large
+    $l(x) = log(1 + e^{-x})$
+\end{center}
+
+\begin{center}\large
+    $\sum_{t=1}^{T} = \left [ \sum_{c \in C_t} l(s(w_t, w_c))) + \sum_{n \in N_{t,c}} l(-s(w_t, n)) \right ]$
+\end{center}
 
 \subsection{DISTORÇÃO DO TEXTO}
 
@@ -92,7 +136,8 @@ O “embedding Input” é uma (Xijd) sequência vetorial de tamanho pré-defini
 Xi,jd
 
 One i é o tamanho do lote (batch), j é o tamanho da sequência (quantidade de palavras) e d é a quantidade de dimensões do vetor das palavras (tamanho da saído do vetor do FastText). 
-    O tamanho de j varia conforme o conjunto de dados de treinamento, e busca informar qual o tamanho adequado da quantidade máxima de palavras que será utilizado para formar as sequências removendo as discrepâncias (“outliers”) e reduzindo assim a complexidade do modelo. Essa quantidade é definida à partir de:
+
+O tamanho de j varia conforme o conjunto de dados de treinamento, e busca informar qual o tamanho adequado da quantidade máxima de palavras que será utilizado para formar as sequências removendo as discrepâncias (“outliers”) e reduzindo assim a complexidade do modelo. Essa quantidade é definida à partir de:
 
 %A = {c0 ... cn}| A está ordenada
 %k = ⌈p(n+1) / 100⌉
