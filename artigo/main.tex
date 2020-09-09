@@ -59,7 +59,7 @@
 \usepackage{color}				% Controle das cores
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{microtype} 			% para melhorias de justificação
-\usepackage[section]{placeins}
+%\usepackage[section]{placeins}
 \usepackage{listings}
 \usepackage{color}
 
@@ -181,19 +181,16 @@
 % ---
 % Capa
 % ---
+\let\cleardoublepage=\clearpage
 \imprimircapa
+\let\cleardoublepage=\clearpage
 % ---
 
 % ---
 % Folha de rosto
 % ---
 \imprimirfolhaderosto
-% ---
-
-% ---
-% NOTA DA ABNT NBR 15287:2011, p. 4:
-%  ``Se exigido pela entidade, apresentar os dados curriculares do autor em
-%     folha ou página distinta após a folha de rosto.''
+\clearpage
 % ---
 
 % ---
@@ -201,7 +198,7 @@
 % ---
 \pdfbookmark[0]{\listfigurename}{lof}
 \listoffigures*
-\cleardoublepage
+\clearpage
 % ---
 
 % ---
@@ -209,26 +206,26 @@
 % ---
 \pdfbookmark[0]{\listtablename}{lot}
 \listoftables*
-\cleardoublepage
+\clearpage
 % ---
 
 % ---
 % inserir lista de abreviaturas e siglas
 % ---
-\begin{siglas}
-  \item[BLAH] bla bla bla
-\end{siglas}
+% \begin{siglas}
+%   \item[BLAH] bla bla bla
+% \end{siglas}
 % ---
 
 % ---
 % inserir lista de símbolos
 % ---
-\begin{simbolos}
-  \item[$ \Gamma $] Letra grega Gama
-  \item[$ \Lambda $] Lambda
-  \item[$ \zeta $] Letra grega minúscula zeta
-  \item[$ \in $] Pertence
-\end{simbolos}
+% \begin{simbolos}
+%   \item[$ \Gamma $] Letra grega Gama
+%   \item[$ \Lambda $] Lambda
+%   \item[$ \zeta $] Letra grega minúscula zeta
+%   \item[$ \in $] Pertence
+% \end{simbolos}
 % ---
 
 % ---
@@ -236,7 +233,7 @@
 % ---
 \pdfbookmark[0]{\contentsname}{toc}
 \tableofcontents*
-\cleardoublepage
+\clearpage
 % ---
 
 
@@ -245,8 +242,8 @@
 % ----------------------------------------------------------
 \textual
 
-\input{artigo/1. introdução}
-\input{artigo/2. Arquitetura do Modelo}
+\input{artigo/1. Introdução}
+\input{artigo/2. Implementação}
 
 \phantompart
 
