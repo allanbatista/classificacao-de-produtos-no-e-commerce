@@ -5,6 +5,8 @@
 
 % Imprime uma página indicando o início dos apêndices
 \partapendices
+\clearpage
+\clearpage
 
 \chapter{FUNÇÃO DE NORMALIZAÇÃO DE TEXTO}
 \label{chap:funcao_normalizacao_texto}
@@ -12,11 +14,64 @@
 O código pode ser acessado no repositório do projeto em:
 \url{https://github.com/allanbatista/classificacao-de-produtos-no-e-commerce/blob/master/codigo/notebooks/Cleaner.ipynb}.
 
+\clearpage
 \chapter{FUNÇÃO DE DISTORÇÃO DE IMAGEM}
 \label{chap:funcao_distorcao_imagem}
 
 O código pode ser acessado no repositório do projeto em 
 \url{https://github.com/allanbatista/classificacao-de-produtos-no-e-commerce/blob/master/codigo/notebooks/Distorção_de_Imagens_com_Tensorflow.ipynb}.
+
+\chapter{FASTTEXT MODELO PRÉ-TREINADO}
+\label{chap:fasttext_modelo_pretreinado}
+
+
+\section{Configurações do Treinamento}
+
+\begin{table}[htb]
+    \ABNTEXfontereduzida
+    \centering
+    \caption[Configurações de Treinamento do FastText]{Configurações de Treinamento do FastText.}
+    \begin{tabular}{|r|l|} \hline
+        epocas & 50 \\ \hline
+        dimensão & 128 \\ \hline
+        n-grams & 1 até 3 \\ \hline
+        n-grams por palavra & 2 até 7 \\ \hline
+        tamanho do dicionário & 5000000 \\ \hline
+    \end{tabular}
+    \legend{Fonte: Elaborado pelo Autor}
+    \label{tab:fasttext_configuracores}
+\end{table}
+
+\section{Modelos Pré-Treinados}
+
+Modelo do FasText: \url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/model.bin}
+
+Modelo Embeddins das palavras: \url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/model.vec}
+
+\section{Corpus}
+
+% \begin{simpletext}\small
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000000.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000001.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000002.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000003.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000004.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000005.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000006.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000007.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000008.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000009.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000010.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000011.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000012.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000013.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000014.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000015.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000016.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000017.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000018.txt} \\
+\url{https://storage.googleapis.com/black-magic-us-west1/fasttext/2020-07-16T00-00-00/000000000019.txt}
+% \end{simpletext}
 
 
 \end{apendicesenv}

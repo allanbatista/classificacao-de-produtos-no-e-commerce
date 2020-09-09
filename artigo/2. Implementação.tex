@@ -58,12 +58,7 @@ Note que na primeira parte da \autoref{fasttext_representacao_das_palavras_ngram
 
 Vale notar que o FastText já possui diversos modelos pré-treinados em várias línguas e podem ser encontradas no seu site \href{https://fasttext.cc/docs/en/english-vectors.html}{FastText Models}.
 
-No entanto, para maximizar a performance do modelo, foi necessário fazer um treinamento especializado com os dados do e-commerce. Para mais detalhes, veja o XXXXXXXXXXX.
-
-
-\begin{center}\large
-    $s(w, c) = \sum_{g \in G_w} z_{g}^{T} v_c$
-\end{center}
+No entanto, para maximizar a performance do modelo, foi necessário fazer um treinamento especializado com os dados do e-commerce. Para mais detalhes, veja no \autoref{chap:fasttext_modelo_pretreinado}.
 
 \subsubsection{MODELO FASTTEXT}
 
@@ -77,13 +72,25 @@ O modelo do FastText é uma variação do \textbf{skip-gram} introduzido no \cit
 	\legend{Fonte: Disponível em \cite{mikolov}}
 \end{figure}
 
+A definição do modelo do skip-gram é dado pela seguinte função:
+
 \begin{center}\large
     $\sum_{t=1}^{T} = \left [ \sum_{c \in C_t} l(s(w_t, w_c))) + \sum_{n \in N_{t,c}} l(-s(w_t, n)) \right ]$
 \end{center}
 
+Tal que $w_t$ são as palavras em volta e $w_c$ é o contexto e $n$ são amostras randômicas negativas e $l$ é a \textbf{função logística de custo} (logistic loss function).
+
 \begin{center}\large
     $l(x) = log(1 + e^{-x})$
 \end{center}
+
+O modelo de "subword" (sub-palavra) é dado pela função:
+
+\begin{center}\large
+    $s(w, c) = \sum_{g \in G_w} z_{g}^{T} v_c$
+\end{center}
+
+Onde $G$ é o tamanho do dicionário de \textit{n-grams} e dado um $w$ (palavra) as suas partes estarão contidas em G, $G_w \subset {1, ..., G}$. A representação vetorial de cada n-gram é dado por $z_g$ e a representação da palavra em si, será o seu somatório.
 
 \subsection{DISTORÇÃO DO TEXTO}
 
