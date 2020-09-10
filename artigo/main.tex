@@ -59,9 +59,21 @@
 \usepackage{color}				% Controle das cores
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{microtype} 			% para melhorias de justificação
-%\usepackage[section]{placeins}
+% \usepackage{placeins}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{amsmath}
+
+\usepackage{placeins}
+
+\let\Oldsection\section
+\renewcommand{\section}{\FloatBarrier\Oldsection}
+
+\let\Oldsubsection\subsection
+\renewcommand{\subsection}{\FloatBarrier\Oldsubsection}
+
+\let\Oldsubsubsection\subsubsection
+\renewcommand{\subsubsection}{\FloatBarrier\Oldsubsubsection}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -101,7 +113,7 @@
 		Citado #1 vezes nas páginas #2.%
 	\fi}%
 % ---
-% \renewcommand{\simpletext}{\noindent\ignorespaces}{\par\noindent\ignorespacesafterend}
+\newcommand{\simpletext}{\noindent\ignorespaces\par\noindent\ignorespacesafterend}
 
 % ---
 % Informações de dados para CAPA e FOLHA DE ROSTO
@@ -196,17 +208,7 @@
 \clearpage
 % ---
 
-% resumo em português
-\begin{resumo}
-
-A classificação de produtos no e-commerce é um desafio, neste trabalho é proposta uma arquitetura híbrida de \textbf{Rede Neural Artificial Profunda} para \textbf{dados heterogêneos e não estruturados} (texto e imagem) em uma única arquitetura que combina \textbf{Redes Neurais Convolucionais} e \textbf{Arquitetura “Transformer”} com uma estrutura de \textbf{classificação multi-nível}.
-
-\vspace{\onelineskip}
- 
-\noindent
-\textbf{Palavras-chave}: aprendizado de máquina, redes neurais profundas, redes convolucionais, arquitetura transformer.
-
-\end{resumo}
+\input{artigo/resumo}
 
 % ---
 % inserir lista de ilustrações
@@ -256,6 +258,7 @@ A classificação de produtos no e-commerce é um desafio, neste trabalho é pro
 % ELEMENTOS TEXTUAIS
 % ----------------------------------------------------------
 \textual
+
 
 \input{artigo/1. Introdução}
 \input{artigo/2. Implementação}
