@@ -2,7 +2,7 @@
 
 O modelo proposto é uma arquitetura de \textbf{Rede Neural Artificial Profunda} com dados heterogêneos não estruturados. Seu formato é a combinação de outras arquiteturas já conhecidas e amplamente utilizadas para resolver separadamente problemas de \textbf{Processamento de Linguagem Natural} e \textbf{Visão Computacional}.
 
-\begin{figure}[htb]
+\begin{figure}[!h]
 	\caption{\label{arquitetura_macro_do_modelo} Arquitetura Macro do Modelo}
 	\begin{center}
 	    \includegraphics[width=\textwidth]{artigo/recursos/imagens/arquitetura_macro_do_modelo.png}
@@ -16,7 +16,7 @@ Para viabilizar a utilização de dados heterogêneos simultaneamente no modelo,
 
 O modelo responsável por extrair os atributos dos textos dos produtos, utiliza várias técnicas para atingir este objetivo e pode ser visto na \autoref{modelo_macro_texto}.
 
-\begin{figure}[htb]
+\begin{figure}[]
 	\caption{\label{modelo_macro_texto} Arquitetura Macro do Modelo de texto}
 	\begin{center}
 	    \includegraphics[width=\textwidth]{artigo/recursos/imagens/modelo_macro_texto.png}
@@ -48,7 +48,7 @@ As palavras são representadas pela soma da representação vetorial de seus \te
 
 Note que na primeira parte da \autoref{fasttext_representacao_das_palavras_ngram} a palavra “água” aparecer como um termo especial, enquanto na segunda parte o termo especial não aparece, dando a ideia de que não esta presente no dicionário, portanto a representação da palavra será feita somente pelos seus \textit{n-grams}.
 
-\begin{figure}[htb]
+\begin{figure}[]
 	\caption{\label{fasttext_representacao_das_palavras_ngram} Representação das palavras pelos seus n-grams}
 	\begin{center}
 	    \includegraphics[scale=0.5]{artigo/recursos/imagens/fasttext_representacao_das_palavras_ngram.png}
@@ -64,7 +64,7 @@ No entanto, para maximizar a performance do modelo, foi necessário fazer um tre
 
 O modelo do FastText é uma variação do \textbf{skip-gram} introduzido no \cite{mikolov}, onde dado uma palavra o objetivo é maximizar a probabilidade das palavras em volta. Um exemplo dessa ideia pode ser visto na \autoref{skip_gram_model}.
 
-\begin{figure}[htb]
+\begin{figure}[]
 	\caption{\label{skip_gram_model} SKIP-GRAM Model}
 	\begin{center}
 	    \includegraphics[scale=0.5]{artigo/recursos/imagens/skip_gram_model.png}
@@ -93,14 +93,23 @@ O modelo de "subword" (sub-palavra) é dado pela função:
 Onde $G$ é o tamanho do dicionário de \textit{n-grams} e dado um $w$ (palavra) as suas partes estarão contidas em G, $G_w \subset {1, ..., G}$. A representação vetorial de cada n-gram é dado por $z_g$ e a representação da palavra em si, será o seu somatório.
 
 \subsection{DISTORÇÃO DO TEXTO}
+\label{distorcao_de_texto_chap}
 
-Para tornar o treinamento mais genérico possível e com maior variabilidade dos dados, é utilizado dois tipos de distorção no texto (data augmentation), sendo a primeira a de remover palavras e a segunda de inverter a ordem de palavras de forma randômica e uniforme. As funções que implementam essa funcionalidade estão disponíveis no APÊNDICE - B.
+Para tornar o treinamento mais genérico possível e com maior variabilidade de dados, é utilizado dois tipos de distorção no texto (data augmentation), sendo a primeira a de remover palavras e a segunda de inverter a ordem de palavras de forma randômica e uniforme. A hipótese para esta distorção, porte do sentido que remove um subconjunto pequeno, não deveria desvirtuar o sentido de um produto. As funções que implementam essa funcionalidade estão disponíveis no \autoref{chap:funcao_distorcao_texto}.
+
+\begin{figure}[]
+	\caption{\label{distorcao_de_texto} Visualização da Distorção de Texto}
+	\begin{center}
+	    \includegraphics[width=\textwidth]{artigo/recursos/imagens/distorcao_de_texto.png}
+	\end{center}
+	\legend{Fonte: Elaborado pelo Autor}
+\end{figure}
 
 \subsection{ARQUITETURA TRANSFORMER}
 
 É utilizado a arquitetura \textbf{"Transformer"} proposta no artigo \cite{transformer} que é responsável pela a extração dos atributos dos textos.
 
-\begin{figure}[htb]
+\begin{figure}[]
 	\caption{\label{transformer_architecture} Arquitetura Transformer}
 	\begin{center}
 	    \includegraphics[scale=0.5]{artigo/recursos/imagens/transformer_architecture.png}
@@ -110,7 +119,9 @@ Para tornar o treinamento mais genérico possível e com maior variabilidade dos
 
 A arquitetura é constituída de dois principais blocos. O Codificador (Encoder) e o Decodificador (Decoder) para fazer a tradução de textos. Para o nosso contexto, que é a classificação de produtos, é utilizado somente o bloco \textbf{Codificador} que pode ser visto na \autoref{transformer_bloco_codificador}.
 
-\begin{figure}[htb]
+Vale notar que na implementação atual é utilizado somente \textbf{um bloco do Codificador} onde foi possível obter excelentes resultados. Ficando para trabalhos futuros averiguar a necessidade de adicionar mais blocos, criando uma pilha de codificadores.
+
+\begin{figure}[]
 	\caption{\label{transformer_bloco_codificador} Bloco Codificador da Arquitetura Transformer}
 	\begin{center}
 	    \includegraphics[scale=0.5]{artigo/recursos/imagens/transformer_bloco_codificador.png}
@@ -118,37 +129,65 @@ A arquitetura é constituída de dois principais blocos. O Codificador (Encoder)
 	\legend{Fonte: Elaborado pelo Autor}
 \end{figure}
 
-Vale notar, que na implementação atual, é utilizado somente um bloco do Codificador onde foi possível obter excelentes resultados. Ficando para trabalhos futuros averiguar a necessidade de adicionar mais blocos, criando uma pilha de codificadores.
-
 \subsubsection{EMBEDDING INPUT}
 
-O “embedding Input” é uma (Xijd) sequência vetorial de tamanho pré-definido que é a representação do texto em formato de matriz, onde essa matriz é gerada pelo FastText e então distorcida.
+O “Embedding Input” é um \textbf{$X_{b,s,d}$} é a representação do texto em formato vetorial. Esses vetores são criados à partir do modelo de FastText introduzido por \cite{fasttext} e distorcido. A distorção pode ser entendida no \autoref{distorcao_de_texto_chap}.
 
-Xi,jd
+O tamanho da matriz é dados por \textbf{$b$} é o tamanho do lote (batch), \textbf{$s$} é o tamanho da sequência (quantidade de palavras) e \textbf{$d$} é a quantidade de dimensões do vetor das palavras.
 
-One i é o tamanho do lote (batch), j é o tamanho da sequência (quantidade de palavras) e d é a quantidade de dimensões do vetor das palavras (tamanho da saído do vetor do FastText). 
+O tamanho de \textbf{$s$} varia conforme o conjunto de dados de treinamento, e busca informar qual o tamanho adequado da quantidade máxima de palavras que será utilizado para formar as sequências removendo as discrepâncias (“outliers”) e reduzindo assim a complexidade do modelo. Essa quantidade de palavras é dada pela função:
 
-O tamanho de j varia conforme o conjunto de dados de treinamento, e busca informar qual o tamanho adequado da quantidade máxima de palavras que será utilizado para formar as sequências removendo as discrepâncias (“outliers”) e reduzindo assim a complexidade do modelo. Essa quantidade é definida à partir de:
+\begin{center}
+    $A = \{c_1, ..., c_n\}$ \\
+    $k = \left \lceil p(n+1) / 100 \right \rceil$
+\end{center}
 
-%A = {c0 ... cn}| A está ordenada
-%k = ⌈p(n+1) / 100⌉
-
-Onde A é uma sequência ordenada da quantidade de palavras por exemplo do conjunto de dados de treinamento,  p-ésimo é a parte  do conjunto de dados que estamos buscando (foi utilizado o valor de p igual à 99,7) e n é o tamanho da amostra, ambos os valores são calculados à partir do conjunto de dados de treinamento. O resultado k é o posição de A que representa a quantidade de palavras que será utilizada.
+Onde $A$ é uma sequência ordenada da quantidade de palavras por amostra do conjunto de dados de treinamento, $p$-ésimo é a parte  do conjunto de dados que estamos buscando (foi utilizado o valor de $p$ igual à 99,7) e $n$ é o tamanho do conjunto de dados, ambos os valores são calculados à partir do conjunto de dados de treinamento. O resultado $k$ é o posição de $A$ que representa a quantidade de palavras que será utilizada.
 
 \subsubsection{CODIFICAÇÃO POSICIONAL}
 
-Nesta etapa, o objetivo é adicionar a informação de posição nas sequências. Isso se faz necessário, pois o modelo não possui consciência do que é posição, diferente de uma Rede Neural Recorrente. A função para a codificação das sentenças se dá por:
+Nesta etapa, o objetivo é adicionar a informação de posição nas sequênclatex colchetesias. Isso se faz necessário pois o modelo não possui consciência do que é posição, diferente de uma \textbf{Rede Neural Recorrente}. A função para a codificação das sentenças se dá por:
 
-Onde d é o tamanho do vetor dos palavras da sequências e i é um vetor de tamanho d que representa as posições de cada atributo do vetor de palavras.
+\begin{center}
+$PE(pos, i) = \begin{cases}
+sin(pos / 10000^{2i/d}), & i \in [0, i // 2) \\
+cos(pos / 10000^{2i/d}), & i \in [i // 2, i]
+\end{cases}$
+\end{center}
 
-Enquanto pos é uma matriz do tamanho do l,m onde l é o tamanho do lote e m é a quantidade de palavras na sequência.
+Onde $d$ é o tamanho do vetor dos palavras e $i$ é um vetor de tamanho $d$ que representa a posição de cada atributo do vetor de palavra.
 
-Um exemplo do código que faz essa implementação pode ser visto no APÊNDICE X - CODIFICAÇÃO POSICIONAL.
+\begin{center}
+    $i = \begin{bmatrix} 0, 1, ..., d-1 \end{bmatrix}$
+\end{center}
 
-\subsubsection{MULTI-HEAD SELF-ATTENTION}
-O que é Attention
+Enquanto $pos_{b,s}$ é uma matriz onde $b$ é o tamanho do lote e $s$ é a quantidade de palavras na sequência.
 
-A definição de Mecanismo de Atenção (“Attention Mechanism”) consiste em “Each annotation hi contains information about whole input sequence with a strong focus on the partes surrounding the i-th word of the input sequence” de acordo com [2], em tradução direta “Cada anotação hi contém informação sobre toda a sentença, com ênfase nas partes que rodeiam a palavra i-th da sequência de entrada”.
+\begin{center}
+    $pos_{b, s} = \begin{bmatrix}
+    0 & 1 & 2 & ... & s-1 \\
+    0 & 1 & 2 & ... & s-1 \\
+    0 & 1 & 2 & ... & s-1
+    \end{bmatrix}$
+\end{center}
+
+O código que faz essa implementação pode ser visto no \autoref{chap:transformer_codificao_posicional}.
+
+\subsubsection{ATTENTION MECHANISM}
+
+O \textbf{Attention Mechanism} (Mecanismo de Atenção em tradução direta) foi proposto no artigo \cite{attention} 
+
+\subsubsection{MULTI-HEAD ATTENTION}
+
+\textbf{Muli-Head Attention} (Atenção de Múltiplas Cabeças em tradução direta) introduzido por \cite{transformer} consiste em utilizar o \textbf{Attention Mechanism}, removendo completamente a necessidade de utilização de \textbf{Redes Recorrentes} para dados sequências.
+
+
+% \begin{backrefalt}
+% “Each annotation hi contains information about whole input sequence with a strong focus on the partes surrounding the i-th word of the input sequence”
+% \end{backrefalt}
+
+
+em tradução direta “Cada anotação hi contém informação sobre toda a sentença, com ênfase nas partes que rodeiam a palavra i-th da sequência de entrada”.
 
 É possível observar que a ideia consiste em em criar um contexto para cada palavra na sequência onde determinadas palavras têm mais relevância do que outras.
 
@@ -170,7 +209,7 @@ asdasd
 
 Para a extração dos atributos das imagens é utilizado o modelo da ResNet proposto no artigo \cite{resnet} além das imagens passarem por distorções em cada nova interação. O formato da estada das imagens é no formato \textbf{RGB 64x64x3}.
 
-\begin{figure}[htb]
+\begin{figure}[]
 	\caption{\label{modelo_imagem_macro} Arquitetura do modelo de Imagem}
 	\begin{center}
 	    \includegraphics[scale=0.5]{artigo/recursos/imagens/modelo_imagem_macro.png}
