@@ -25,13 +25,9 @@ Neste contexto a B2W possui milhares de categorias para a classificação indivi
     \label{tab:quantidade_de_categorias}
 \end{table}
 
-Se faz necessário criar um mecanismo que permita a classificação de produtos sem a interação humana tornando o processo mais rápido e reduzindo erros.
-
-
-
 Portanto, se faz necessário a criação de um sistema capaz de fazer esta categorização de forma automática a fim de reduzir o custo, tempo e elevar a assertividade da classificação de produtos na entrada de novos itens no marketplace. 
 
-Para a resolução deste problema, foi desenvolvido uma arquitetura de Redes Neurais Artificiais utilizando dados heterogêneos não estruturados de texto e imagem dos produtos a fim de tornar a classificação mais eficiente do ponto de vista de assertividade.
+Para a resolução deste problema, foi desenvolvido uma arquitetura de Redes Neurais Artificiais utilizando dados heterogêneos não estruturados (texto e imagem) dos produtos a fim de tornar a classificação mais eficiente do ponto de vista de assertividade.
 
 \section{PORQUE UTILIZAR TEXTO E IMAGEM}
 
@@ -56,7 +52,6 @@ A estrutura das categorias é em formato de árvore e pode ser visto na \autoref
 	\end{center}
 	\legend{Fonte: Elaborado pelo Autor}
 \end{figure}
-
 
 \section{PROBLEMAS NOS DADOS}
 
@@ -92,7 +87,7 @@ Podemos citar um exemplo de que um celular, que poderia estar alocado em televis
 
 \subsection{DESBALANCEAMENTO NAS CATEGORIAS}
 
-O problema de desbalanceamento de dados também se encontra presente, para mitigar esse problema utilizamos algumas técnicas como: oversampling, undersampling e  uma função de erro especializada para  dados desbalanceados.
+O problema de desbalanceamento de dados também se encontra presente, para mitigar esse problema utilizamos algumas técnicas como: oversampling, undersampling e  uma função de erro especializada para dados desbalanceados.
 
 \begin{figure}[htb]
 	\caption{\label{char_bar_produtos_por_categoria} Quantidade de Produtos Por Departamento}
@@ -104,7 +99,7 @@ O problema de desbalanceamento de dados também se encontra presente, para mitig
 
 \subsection{LÍNGUA PRÓPRIA}
 
-Os títulos dos produtos são tão distintos nas palavras e na forma de escrever, que partimos do princípio que estamos trabalhando como uma língua distinta de todas as outras. Pois não conseguimos aplicar nenhuma técnica tradicional de Processamento de Linguagem Natural como: lemmantize, stemmer ou mesmo stop-words.
+Os títulos dos produtos são tão distintos nas palavras e na forma de escrever da linguá comum, que partimos do princípio que estamos trabalhando como uma língua distinta de todas as outras. Pois não conseguimos aplicar nenhuma técnica tradicional de Processamento de Linguagem Natural como: lemmantize, stemmer ou mesmo stop-words.
 
 \begin{itemize}
 \item Smartphone Samsung Galaxy S10e 128GB Dual Chip Android 9.0 Tela 5,8" Octa-Core 4G Câmera 12MP + 16MP - Preto
@@ -112,4 +107,4 @@ Os títulos dos produtos são tão distintos nas palavras e na forma de escrever
 \item Tapete Para Sala Shaggy Requinte Casa Dona 100x150cm Cinza
 \end{itemize}
 
-É possível observar nos exemplos acima que não seguem nenhuma regra gramatical do português. Além de quê, com a entrada de novos produtos de outros países do mundo começando a serem vendidos localmente, presumir regras gramaticais de uma única língua é inviável.
+É possível observar nos exemplos acima que não seguem nenhuma regra gramatical do português. Além de quê, com a entrada de novos produtos de outros países, presumir regras gramaticais parece imprudente.

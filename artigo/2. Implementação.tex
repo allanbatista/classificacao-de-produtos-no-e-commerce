@@ -266,9 +266,12 @@ Para tentar reduzir o ruído no conjunto de dados, é utilizado um modelo de aux
 
 Quanto os produtos de uma subfamília possuem quantidade menor ou igual à 3, essas subfamílias são removidas pois não possuem dados o suficiente para treinar, validar e testar;
 
-Uma vez o conjunto de dados selecionado, é feito a separação dos dados de treinamento, validação e teste. Onde 90 dos dados são para treinamento, 5 para validação e 5 para teste. Os dados de treinamento passam ainda por oversampling e undersampling.
-Para as subfamílias com muitos produtos, são feitas o undersampling definindo um máximo de a Média mais duas vezes o Desvio padrão (mean + 2*std);
+Uma vez o conjunto de dados selecionado, é feito a separação dos dados de treinamento, validação e teste. Onde 90 dos dados são para treinamento, 5 para validação e 5 para teste. Os dados de treinamento passam ainda por \textbf{oversampling} e \textbf{undersampling}.
+
+Para as subfamílias com muitos produtos, são feitas o \textbf{undersampling} definindo um máximo de a Média mais duas vezes o Desvio padrão (mean + 2*std);
 Para as subfamílias com produtos menores que 30, é feito o oversampling (replicação de exemplos) até ficarem com 30 amostras.
+
+
 
 \section{TREINAMENTO}
 
@@ -280,6 +283,10 @@ O otimizador utilizado é o \textbf{Stochastic Gradient Descent} (SGD) com \text
 
 \subsection{FUNÇÃO DE ERRO (LOSS FUNCTION)}
 
-Como os dados são extremamentes desbalanceados e em certas classes tem tão poucos e outras grandes quantidades de exemplos e a variabilidade e sutileza, buscamos na literatura uma função de erro que fosse capaz de incluir esse desbalanceamento durante o treinamento.
-O Focal Loss é uma variação do Cross Entropy especializado em dados desbalanceados desenvolvido para detectar objetos sob fundos em imagens. Foi desenvolvido no Facebook AI Research (LIN et al., 2017). A publicação esta disponível em: https://arxiv.org/abs/1708.02002 e o código fonte de exemplo está disponível no APÊNDICE C.
-ADICIONAR FUNÇÃO MATEMÁTICA
+Devido ao desbalanceado dados nas classes, problema que se agrava conforme a especificidade da categoria aumenta, buscamos na literatura formas para mitigar este problema, além da utilização de \textbf{oversampling} e \textbf{undersampling} passamos à utilizar também uma função de erro para ajudar neste processo.
+
+No artigo \textbf{Focal Loss for Dense Object Detection} introduzido por \cite{local_loss} implementa uma variação do \textbf{Cross Entropy} focada em classes extremamente desbalanceadas. A implementação pode ser visto no \autoref{chap:focal_loss}.
+
+\begin{center}
+    $FL(p) = -\alpha( (1 - p) ^ l) * log(p)$
+\end{center}
