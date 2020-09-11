@@ -95,7 +95,7 @@ Onde $G$ é o tamanho do dicionário de \textit{n-grams} e dado um $w$ (palavra)
 \subsection{DISTORÇÃO DO TEXTO}
 \label{distorcao_de_texto_chap}
 
-Para tornar o treinamento mais genérico possível e com maior variabilidade de dados, é utilizado dois tipos de distorção no texto (data augmentation), sendo a primeira a de remover palavras e a segunda de inverter a ordem de palavras de forma randômica e uniforme. A hipótese para esta distorção, porte do sentido que remove um subconjunto pequeno, não deveria desvirtuar o sentido de um produto. As funções que implementam essa funcionalidade estão disponíveis no \autoref{chap:funcao_distorcao_texto}.
+Para tornar o treinamento mais genérico possível e com maior variabilidade de dados, é utilizado dois tipos de distorção no texto (data augmentation), sendo a primeira a de remover palavras e a segunda de inverter a ordem de palavras de forma randômica e uniforme. A hipótese para esta distorção, parte do principio que remover ou trocar de posição um subconjunto pequeno, não deve corromper o sentido do produto. As funções que implementam essa funcionalidade estão disponíveis no \autoref{chap:funcao_distorcao_texto}.
 
 \begin{figure}[]
 	\caption{\label{distorcao_de_texto} Visualização da Distorção de Texto}
@@ -173,13 +173,29 @@ Enquanto $pos_{b,s}$ é uma matriz onde $b$ é o tamanho do lote e $s$ é a quan
 
 O código que faz essa implementação pode ser visto no \autoref{chap:transformer_codificao_posicional}.
 
-\subsubsection{ATTENTION MECHANISM}
+% \subsubsection{ATTENTION MECHANISM}
 
-O \textbf{Attention Mechanism} (Mecanismo de Atenção em tradução direta) foi proposto no artigo \cite{attention} 
+% O \textbf{Attention Mechanism} (Mecanismo de Atenção em tradução direta) introduzido por \cite{attention} consiste em prestar atenção com maior intensidade em algumas partes do todo.
+
+% \begin{center}\large
+%     $c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_j$
+% \end{center}
+
+% \begin{center}\large
+%     $\alpha_{ij} = \frac{exp(e_{ij})}{\sum_{k=1}^{T_x} exp(e_{ik})}$
+% \end{center}
+
+% \begin{center}\large
+%     $e_{ij} = a(s_i-1, h_j)$
+% \end{center}
+
+
 
 \subsubsection{MULTI-HEAD ATTENTION}
 
-\textbf{Muli-Head Attention} (Atenção de Múltiplas Cabeças em tradução direta) introduzido por \cite{transformer} consiste em utilizar o \textbf{Attention Mechanism}, removendo completamente a necessidade de utilização de \textbf{Redes Recorrentes} para dados sequências.
+\textbf{Muli-Head Attention} (Atenção de Múltiplas Cabeças em tradução direta) introduzido por \cite{transformer} consiste em utilizar o \textbf{Attention Mechanism} proposto no artigo \cite{attention} no entanto, ao invés de utilizar uma única função de atenção, re-organiza o $d_{model}$ em $h$ projeções.
+
+
 
 
 % \begin{backrefalt}
@@ -260,14 +276,10 @@ O treinamento do modelo ocorre utilizando 8 GPUs Nvidia V100 durante X dias e pa
 
 \subsection{OTIMIZADOR}
 
-Para o otimizador é utilizado mini-batch (128) com SGD com Momentum e Nesterov a fim de aumentar a velocidade do treinamento com o learning rate inicial de 0,01 e sendo reduzido após a décima época num fator exponencial.
+O otimizador utilizado é o \textbf{Stochastic Gradient Descent} (SGD) com \textbf{Momentum} e \textbf{Nesterov} onde obtemos melhores resultados. Usando um \textbf{Learning Rate} inicial de 0,01 com um \textbf{Learning Rate Scheduler Exponencial} sendo acionado após a época 10.
 
 \subsection{FUNÇÃO DE ERRO (LOSS FUNCTION)}
 
 Como os dados são extremamentes desbalanceados e em certas classes tem tão poucos e outras grandes quantidades de exemplos e a variabilidade e sutileza, buscamos na literatura uma função de erro que fosse capaz de incluir esse desbalanceamento durante o treinamento.
 O Focal Loss é uma variação do Cross Entropy especializado em dados desbalanceados desenvolvido para detectar objetos sob fundos em imagens. Foi desenvolvido no Facebook AI Research (LIN et al., 2017). A publicação esta disponível em: https://arxiv.org/abs/1708.02002 e o código fonte de exemplo está disponível no APÊNDICE C.
 ADICIONAR FUNÇÃO MATEMÁTICA
-
-\subsection{CLÁUSULA DE PARADA}
-
-É definido como cláusula de parada, quando o modelo para de conseguir reduzir o loss do conjunto de dados de validação com uma paciência de 10 épocas.

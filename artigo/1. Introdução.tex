@@ -1,10 +1,33 @@
 \chapter[Introdução]{Introdução}
 
-Com continuo crescimento do e-commerce no Brasil nos últimos anos e a adesão cada vez maior de novas lojas no Marketplace, traz consigo um aumento considerável na entrada de produtos no site da companhia.
+Com continuo crescimento do e-commerce no Brasil nos últimos anos e a adesão cada vez maior de novas lojas no Marketplace, traz consigo um aumento considerável na entrada de novos produtos no site da companhia. Tal confirmação pode ser observado na \autoref{quantidade_de_produtos_por_mes}.
+
+\begin{figure}[htb]
+	\caption{\label{quantidade_de_produtos_por_mes} Quantidade de Produtos ao longo dos Meses 2018+}
+	\begin{center}
+	    \includegraphics[width=\textwidth]{artigo/recursos/imagens/Quantidade de Produtos ao longo dos Meses 2018+.png}
+	\end{center}
+	\legend{Fonte: Elaborado pelo Autor}
+\end{figure}
+
+Neste contexto a B2W possui milhares de categorias para a classificação individual de produtos, como pode ser visto na tabela \autoref{tab:quantidade_de_categorias}, essa quantidade de categorias gera muita confusão e erros na hora de fazer a classificação dos produtos pelas lojas (sellers).
+
+\begin{table}[]
+    \centering
+    \caption{Quantidade de Categorias}
+    \begin{tabular}{r|l} \hline
+        Departamento & 60  \\ \hline
+        Setor & 1152 \\ \hline
+        Família & 4595 \\ \hline
+        Subfamília & 8885 \\ \hline
+    \end{tabular}
+    \legend{Fonte: Elaborado pelo Autor}
+    \label{tab:quantidade_de_categorias}
+\end{table}
 
 Se faz necessário criar um mecanismo que permita a classificação de produtos sem a interação humana tornando o processo mais rápido e reduzindo erros.
 
-Neste contexto a B2W possui cerca de X categorias para a classificação individual de produtos, essa quantidade de categorias gera muita confusão e erros na hora de fazer a classificação dos produtos pelos sellers.
+
 
 Portanto, se faz necessário a criação de um sistema capaz de fazer esta categorização de forma automática a fim de reduzir o custo, tempo e elevar a assertividade da classificação de produtos na entrada de novos itens no marketplace. 
 
@@ -43,6 +66,24 @@ Como todo conjunto de dados do mundo real, o nosso conjunto de dados não é dif
 
 A ambiguidade de categorias é outro problema encontrado no nosso conjunto dados, isso de deve a criação desordenada e descentralizada de categorias ao longo dos anos para atender diversos setores da companhia com objetivos distintos. 
 
+\begin{table}[h]
+    \centering
+    \caption{Amostra de categorias ambíguas no contexto de Mouse para computador}
+    \tiny
+    \begin{tabularx}{\textwidth}{X|X|X|X} 
+        \textbf{DEPARTAMENTO} & \textbf{SETOR} & \textbf{FAMÍLIA} & \textbf{SUBFAMÍLIA} \\ \hline
+        INFORMÁTICA ACESSÓRIOS & MOUSE & MOUSE COM FIO & MOUSE COM FIO \\ \hline
+        INFORMÁTICA ACESSÓRIOS & MOUSE & MOUSE WIRELESS & MOUSE WIRELESS \\ \hline
+        INFORMÁTICA ACESSÓRIOS & MOUSE & MOUSE RETRÁTIL & MOUSE RETRÁTIL \\ \hline
+        PC GAMER & MOUSE GAMER & MOUSE COM FIO & MOUSE COM FIO \\ \hline
+        PC GAMER & MOUSE GAMER & MOUSE WIRELESS & MOUSE WIRELESS \\ \hline
+        PC GAMER & COMBO GAMER & TECLADO E MOUSE & TECLADO E MOUSE \\ \hline
+        PC GAMER & COMBO GAMER & MOUSE + MOUSEPAD GAMER & MOUSE + MOUSEPAD GAMER
+    \end{tabularx}
+    \legend{Fonte: Elaborado pelo autor}
+    \label{tab:ambiguidades}
+\end{table}
+
 \subsection{RUÍDOS NOS DADOS}
 
 Além dos problemas de ambiguidades, há problemas também de produtos mal categorizados anteriormente, onde por algum equívoco (dificuldade/ambiguidade), um produto foi alocado em uma categoria erroneamente.
@@ -56,7 +97,7 @@ O problema de desbalanceamento de dados também se encontra presente, para mitig
 \begin{figure}[htb]
 	\caption{\label{char_bar_produtos_por_categoria} Quantidade de Produtos Por Departamento}
 	\begin{center}
-	    \includegraphics[width=\textwidth]{artigo/recursos/imagens/char_bar_produtos_por_categoria.png}
+	    \includegraphics[width=\textwidth]{artigo/recursos/imagens/Quantidade de Produtos por Departamento.png}
 	\end{center}
 	\legend{Fonte: Elaborado pelo Autor}
 \end{figure}

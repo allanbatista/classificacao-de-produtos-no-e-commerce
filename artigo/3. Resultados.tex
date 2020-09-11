@@ -1,0 +1,28 @@
+\chapter{Resultados}
+
+Os resultados desse trabalho, foram todos feitos com dados reais e representação a qualidade do modelo neste momento.
+
+\section{MÉTODOS DE AVALIAÇÃO}
+
+A comparação da performance dos modelos foram feitas utilizando a métrica F1-Score Macro a fim de avaliar a qualidade entre os modelos.
+
+\section{CONFIGURAÇÃO DO TREINAMENTO}
+
+Todos os treinamentos ocorreram utilizando 8xV100 com o tamanho do lote de 128 (por GPU) e a cláusula de parada ocorre quando o loss do conjunto de dados de validação para de cair por um prazo de 10 épocas.
+
+\section{EXPERIMENTOS}
+
+Os resultados dos experimentos podem ser visualizados na \autoref{tab:experimentos}
+
+\begin{table}[h]
+\centering
+\caption{Resultados dos Experimentos}
+\label{tab:experimentos}
+\begin{tabularx}{\textwidth}{r|c|c|c|c|c|c|c}
+               & Departamento & Setor & Família & Subfamília & Média & Época & Horas \\
+Texto + Imagem &              &       &         &            &  0.9  &   50  &   10h \\
+Imagem         &              &       &         &            &       &       &       \\
+Texto          &              &       &         &            &       &       &        
+\end{tabularx}
+\legend{Fonte: Elaborado pelo autor}
+\end{table}
