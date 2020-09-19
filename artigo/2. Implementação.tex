@@ -62,7 +62,7 @@ No entanto, para maximizar a performance do modelo, foi necessário fazer um tre
 
 \subsubsection{MODELO FASTTEXT}
 
-O modelo do FastText é uma variação do \textbf{skip-gram} introduzido no \cite{mikolov}, onde dado uma palavra o objetivo é maximizar a probabilidade das palavras em volta. Um exemplo dessa ideia pode ser visto na \autoref{skip_gram_model}.
+O modelo do FastText é uma variação do \textbf{skip-gram} introduzido no \cite{mikolov}que tem como objetivo prever as palavras ao seu redor de forma a maximizar as suas probabilidades. Um exemplo dessa ideia pode ser visto na \autoref{skip_gram_model}.
 
 \begin{figure}[]
 	\caption{\label{skip_gram_model} SKIP-GRAM Model}
@@ -95,7 +95,9 @@ Onde $G$ é o tamanho do dicionário de \textit{n-grams} e dado um $w$ (palavra)
 \subsection{DISTORÇÃO DO TEXTO}
 \label{distorcao_de_texto_chap}
 
-Para tornar o treinamento mais genérico possível e com maior variabilidade de dados, é utilizado dois tipos de distorção no texto (data augmentation), sendo a primeira a de remover palavras e a segunda de inverter a ordem de palavras de forma randômica e uniforme. A hipótese para esta distorção, parte do principio que remover ou trocar de posição um subconjunto pequeno, não deve corromper o sentido do produto. As funções que implementam essa funcionalidade estão disponíveis no \autoref{chap:funcao_distorcao_texto}.
+Para tornar o treinamento mais genérico possível e com maior variabilidade de dados, são utilizados dois tipos de distorção no texto (data augmentation), sendo a primeira de remover palavras e a segunda inverter a ordem de palavras de forma randômica.
+
+A hipótese para esta distorção parte do principio que ao remover e trocar de posição um subconjunto pequeno de palavras não corrompe o entendimento do produto. As funções que implementam essa funcionalidade estão disponíveis no \autoref{chap:funcao_distorcao_texto}.
 
 \begin{figure}[]
 	\caption{\label{distorcao_de_texto} Visualização da Distorção de Texto}
@@ -117,7 +119,7 @@ Para tornar o treinamento mais genérico possível e com maior variabilidade de 
 	\legend{Fonte: Disponível em \cite{transformer}}
 \end{figure}
 
-A arquitetura é constituída de dois principais blocos. O Codificador (Encoder) e o Decodificador (Decoder) para fazer a tradução de textos. Para o nosso contexto, que é a classificação de produtos, é utilizado somente o bloco \textbf{Codificador} que pode ser visto na \autoref{transformer_bloco_codificador}.
+A arquitetura é constituída de dois principais blocos. O Codificador (Encoder) e o Decodificador (Decoder) para fazer a tradução de textos. Dentro do nosso contexto, que envolve a categorização de produtos, utilizamos apenas o bloco \textbf{Codificador}. A ilustração desse bloco pode ser visto na \autoref{transformer_bloco_codificador}.
 
 \begin{figure}[]
 	\caption{\label{transformer_bloco_codificador} Bloco Codificador da Arquitetura Transformer}
@@ -241,14 +243,14 @@ Para a extração dos atributos das imagens é utilizado o modelo da ResNet prop
 Assim como foi feito nos textos, também é feito a distorção (data augmentation) nas imagens para tornar o treinamento melhor e mais genérico, pois toda vez que uma imagem passa pela rede, é como se fosse uma nova imagem. Para atingir esse objetivo é empregado diversas modificações nas imagens como pode ser visto no exemplo na \autoref{imagem_distorcao} e no \autoref{chap:funcao_distorcao_imagem} pode ser encontrado a implementação.
 
 \begin{figure}[htb]
-	\caption{\label{imagem_distorcao} Distorção de Imagem}
+	\caption{\label{imagem_distorcao} Distorção de Imagens}
 	\begin{center}
 	    \includegraphics[width=\textwidth]{artigo/recursos/imagens/imagem_distorcao.png}
 	\end{center}
 	\legend{Fonte: Elaborado pelo Autor}
 \end{figure}
 
-\subsection{ARQUITETURA RESNET V2}
+\subsection{ARQUITETURA RESNET}
 
 Para a extração das características das imagens é utilizado o modelo \textbf{ResNet} introduzido no \cite{resnet}, onde propõe a utilização do \textbf{bloco residual} de tal forma que previna o \textbf{vanishing e exploding} gradientes em redes neurais muito profundas. O bloco residual pode ser visto na \autoref{residual_block}.
 
@@ -295,7 +297,7 @@ Para tentar criar um conjunto de dados razoável precisamos aplicar algumas téc
 \begin{itemize}
 \item Para tentar reduzir o ruído no conjunto de dados, é utilizado um modelo de auxiliar capaz de identificar possíveis produtos mal categorizados;
 \item Quanto os produtos de uma subfamília possuem quantidade menor ou igual à 3, essas subfamílias são removidas pois não possuem dados o suficiente para treinar, validar e testar;
-\item Uma vez o conjunto de dados selecionado, é feito a separação dos dados de treinamento, validação e teste. Onde 90 dos dados são para treinamento, 5 para validação e 5 para teste. Os dados de treinamento passam ainda por \textbf{oversampling} e \textbf{undersampling};
+\item Uma vez o conjunto de dados selecionado, é feito a separação dos dados de treinamento, validação e teste. Onde 90\% dos dados são para treinamento, 5\% para validação e 5\% para teste. Os dados de treinamento passam ainda por \textbf{oversampling} e \textbf{undersampling};
 \end{itemize}
 
 \textbf{Undersampling}
@@ -316,11 +318,11 @@ Para a otimização e erro é utilizado o SGD e o Focal Loss que serão descrito
 
 \subsection{OTIMIZADOR}
 
-O otimizador utilizado é o \textbf{Stochastic Gradient Descent} (SGD) com \textbf{Momentum} e \textbf{Nesterov} onde obtemos melhores resultados. Usando um \textbf{Learning Rate} inicial de 0,01 com um \textbf{Learning Rate Scheduler Exponencial} sendo acionado após a época 10.
+O otimizador utilizado é o \textbf{Stochastic Gradient Descent} (SGD) com \textbf{Momentum} e \textbf{Nesterov} onde obtemos melhores resultados. Usando um \textbf{Learning Rate} inicial de 0,01 com um \textbf{Learning Rate Scheduler Exponencial} sendo acionado após a 10ª época.
 
 \subsection{FUNÇÃO DE ERRO (LOSS FUNCTION)}
 
-Devido ao desbalanceado dados nas classes, problema que se agrava conforme a especificidade da categoria aumenta, buscamos na literatura formas para mitigar este problema, além da utilização de \textbf{oversampling} e \textbf{undersampling} passamos à utilizar também uma função de erro para ajudar neste processo.
+Devido ao desbalanceado dados nas classes, problema que se agrava conforme a especificidade da categoria aumenta, buscamos na literatura formas para mitigar este problema, além da utilização de oversampling e undersampling passamos à utilizar também uma função de erro para ajudar neste processo.
 
 No artigo \textbf{Focal Loss for Dense Object Detection} introduzido por \cite{local_loss} implementa uma variação do \textbf{Cross Entropy} focada em classes extremamente desbalanceadas. A implementação pode ser visto no \autoref{chap:focal_loss}.
 
