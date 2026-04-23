@@ -5,6 +5,7 @@ set -e
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 docker run --rm \
+  --user "$(id -u):$(id -g)" \
   -v "$REPO_DIR:/workspace" \
   -w /workspace \
   -e BIBINPUTS=artigo: \
@@ -14,7 +15,7 @@ docker run --rm \
     bibtex main
     pdflatex -interaction=nonstopmode artigo/main.tex
     pdflatex -interaction=nonstopmode artigo/main.tex
-    mv main.pdf artigo/main.pdf
+    mv main.pdf classificacao-de-produtos-no-e-commerce.pdf
   "
 
-echo "PDF gerado em artigo/main.pdf"
+echo "PDF gerado em classificacao-de-produtos-no-e-commerce.pdf"
